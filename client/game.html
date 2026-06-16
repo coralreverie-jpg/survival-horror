@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔴 SCP Horror - Game</title>
+    <link rel="stylesheet" href="css/game.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- HUD -->
+        <div class="hud">
+            <div class="top-bar">
+                <div class="room-info">
+                    <span>🏠 Room: <span id="roomCode">000000</span></span>
+                </div>
+                <div class="player-stats">
+                    <div class="player-card">
+                        <span id="playerName">Player</span>
+                        <div class="lives">
+                            <span id="playerLives">❤️❤️❤️</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer">
+                    <span id="gameTimer">30:00</span>
+                </div>
+            </div>
+
+            <!-- Mission Panel -->
+            <div class="mission-panel">
+                <div class="mission-title">
+                    <span id="missionTitle">Mission Loading...</span>
+                </div>
+                <div class="mission-progress">
+                    <div id="missionProgress" class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div id="missionHints" class="hints-box"></div>
+            </div>
+
+            <!-- Voice Meter -->
+            <div class="voice-meter">
+                <div class="meter-label">🎙️ NOISE LEVEL</div>
+                <div id="noiseMeter" class="noise-bar">
+                    <div id="noiseFill" class="noise-fill" style="width: 0%"></div>
+                </div>
+                <div class="meter-warning" id="scpWarning" style="display: none;">
+                    ⚠️ SCP ALERTED!
+                </div>
+            </div>
+
+            <!-- Inventory -->
+            <div class="inventory">
+                <div class="inventory-title">📦 INVENTORY</div>
+                <div class="inventory-items" id="inventoryItems"></div>
+            </div>
+
+            <!-- Players List -->
+            <div class="players-list">
+                <div class="list-title">👥 TEAM</div>
+                <div id="playersList" class="list-content"></div>
+            </div>
+
+            <!-- Admin Panel Button -->
+            <div class="admin-corner">
+                <button id="adminBtn" class="btn-admin" onclick="openAdminPanel()" style="display: none;">⚙️</button>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="modal hidden">
+            <div class="modal-content">
+                <h2>⚙️ ADMIN PANEL</h2>
+                <div class="admin-buttons">
+                    <button class="btn btn-primary" onclick="adminCommand('stop-time')">⏸️ Stop Time (5s)</button>
+                    <button class="btn btn-primary" onclick="toggleFastShoes()">👟 Toggle Fast Shoes</button>
+                    <button class="btn btn-primary" onclick="adminCommand('portal')">🌀 Portal Jump</button>
+                </div>
+                <button class="btn btn-danger" onclick="closeAdminPanel()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
