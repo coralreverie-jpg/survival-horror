@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔴 SCP Horror - Multiplayer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-menu">
+            <div class="logo">🔴 SCP HORROR</div>
+            <p class="subtitle">A Multiplayer Horror Experience</p>
+            
+            <div class="player-section">
+                <input type="text" id="playerName" placeholder="Enter your name..." maxlength="20">
+            </div>
+
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="showCreateRoom()">
+                    🏠 CREATE ROOM
+                </button>
+                <button class="btn btn-secondary" onclick="showJoinRoom()">
+                    🚪 JOIN ROOM
+                </button>
+            </div>
+            
+            <div id="createRoomModal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Create New Room</h2>
+                    <p>Your room code will be:</p>
+                    <div class="room-code" id="roomCode">------</div>
+                    <p class="small-text">Share this code with friends!</p>
+                    <button class="btn btn-primary" onclick="createRoom()">START GAME</button>
+                    <button class="btn btn-danger" onclick="closeModal()">CANCEL</button>
+                </div>
+            </div>
+            
+            <div id="joinRoomModal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Join Room</h2>
+                    <input type="text" id="roomCodeInput" placeholder="Enter room code (6 digits)" maxlength="6">
+                    <button class="btn btn-primary" onclick="joinRoom()">JOIN</button>
+                    <button class="btn btn-danger" onclick="closeModal()">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        function showCreateRoom() {
+            const playerName = document.getElementById('playerName').value.trim();
+            if (!playerName) {
+                alert('Please enter your name first!');
+                return;
+            }
+            generateRoomCode();
+            document.getElementById('createRoomModal').classList.remove('hidden');
+        }
+
+        function showJoinRoom() {
+            const playerName = document.getElementById('playerName').value.trim();
+            if (!playerName) {
+                alert('Please enter your name first!');
+                return;
+            }
+            document.getElementById('joinRoomModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('createRoomModal').classList.add('hidden');
+            document.getElementById('joinRoomModal').classList.add('hidden');
+        }
+
+        function generateRoomCode() {
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('roomCode').textContent = code;
+            document.getElementById('roomCode').dataset.code = code;
+        }
+
+        function createRoom() {
+            const playerName = document.getElementById('playerName').value.trim();
+            const roomCode = document.getElementById('roomCode').dataset.code;
+            
+            if (!playerName || !roomCode) return;
+            
+            window.gameData = { playerName, roomCode, isHost: true };
+            window.location.href = '/game.html';
+        }
+
+        function joinRoom() {
+            const playerName = document.getElementById('playerName').value.trim();
+            const roomCode = document.getElementById('roomCodeInput').value.trim();
+            
+            if (!playerName || !roomCode) {
+                alert('Please enter both name and room code!');
+                return;
+            }
+            
+            if (roomCode.length !== 6) {
+                alert('Room code must be 6 digits!');
+                return;
+            }
+            
+            window.gameData = { playerName, roomCode, isHost: false };
+            window.location.href = '/game.html';
+        }
+    </script>
+</body>
+</html>
