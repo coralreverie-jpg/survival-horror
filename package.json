@@ -1,0 +1,23 @@
+{
+  "name": "scp-horror-multiplayer",
+  "version": "1.0.0",
+  "description": "Multiplayer horror game with SCP entity",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["horror", "multiplayer", "game", "scp"],
+  "author": "coralreverie-jpg",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.5.4",
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
